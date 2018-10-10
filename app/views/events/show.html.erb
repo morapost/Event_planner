@@ -24,6 +24,33 @@
   <strong>Users:</strong>
   <%= @event.users.pluck(:name).join(',') %>
 </p>
+<h2>Listing User Events</h2>
+
+  <table class="table">
+  <thead>
+    <tr>
+      <th>User Name</th>
+      <th>Event Title</th>
+      <th>Start time</th>
+      <th>End time</th>
+      <th>Confirmation Status</th>
+      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @event.user_events.includes(:user,:event).each do |user_event| %>
+      <tr>
+        <td><%= user_event.user.name %></td>
+        <td><%= user_event.event.title %></td>
+        <td><%= user_event.event.start_time.strftime("at %I:%M:%p on %b-%d-%Y") %></td>
+        <td><%= user_event.event.end_time.strftime("at %I:%M:%p on %b-%d-%Y") %></td>
+        <td><%= user_event.status %></td>
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |
 <%= link_to 'Back', events_path %>
