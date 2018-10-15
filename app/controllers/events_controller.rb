@@ -28,8 +28,12 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
-        format.json { render :show, status: :created, location: @event }
+        @event.user_events.each do |user_event|
+          EventMailer.registration_confirmation(event: user_event).deliver
+          #binding.pry
+        end
+          format.html { redirect_to @event, notice: 'Event was successfully created.' }
+          format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
@@ -60,6 +64,24 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def confirm_email
+    confirm_event = UserEvent.find_by_confirmation_token(params[:id])
+    if confirm_event
+      #binding.pry
+      confirm_event.accept_event
+      confirm_event.save
+      flash[:success] = "Welcome to the Sample App! Your email has been confirmed.
+      Please sign in to continue."
+      #binding.pry
+      redirect_to event_path(confirm_event.event)
+    else
+      flash[:error] = "Sorry. Event does not exist"
+      redirect_to root_url
+    end
+  end
+
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
