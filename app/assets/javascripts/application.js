@@ -14,5 +14,7 @@
 //= require popper
 //= require bootstrap
 //= require jquery_ujs
+//= require moment
+//= require tempusdominus-bootstrap-4.js
 //= require turbolinks
 //= require_tree .

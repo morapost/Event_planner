@@ -1,5 +1,19 @@
 @import "bootstrap";
+@import "tempusdominus-bootstrap-4.css";
 
 .checkbox_container input {
   display: inline;
+}
+
+input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0px;
+    margin: 10px;
+}
+
+.accepted {
+	color: #2fc559;
+}
+.Pending {
+	color: #dc3545;
 }

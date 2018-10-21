@@ -2,8 +2,15 @@
 
 <h1>Events</h1>
 
-<%= month_calendar do |date| %>
+<%= month_calendar events: @events do |date, events| %>
   <%= date %>
+  <% events.each do |event| %>
+    <div>
+      <%= event.title %>
+      <p class="accepted">Accepted : <%= event.user_events.where(status: "Accepted").count %></p> <br>
+      <p class="Pending">Pending : <%= event.user_events.where(status: "Pending").count %></p>
+    </div>
+  <% end %>
 <% end %>
 
 <table class="table">
